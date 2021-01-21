@@ -1,0 +1,8 @@
+{
+  "runtimeOptions": {
+    "additionalProbingPaths": [
+      "/home/eryx/.dotnet/store/|arch|/|tfm|",
+      "/home/eryx/.nuget/packages"
+    ]
+  }
+}

@@ -1,0 +1,12 @@
+2021-01-21 16:30:45.0339 INFO Getting authors.
+2021-01-21 16:30:45.1818 ERROR Object reference not set to an instance of an object. - 
+2021-01-21 16:31:37.9288 INFO Getting authors.
+2021-01-21 16:31:37.9988 ERROR Object reference not set to an instance of an object. - 
+2021-01-21 16:32:39.1013 INFO Getting authors.
+2021-01-21 16:34:10.1535 INFO Getting authors.
+2021-01-21 16:34:46.6822 INFO Getting authors.
+2021-01-21 16:36:08.6816 INFO Getting authors.
+2021-01-21 16:38:28.6794 INFO Getting authors.
+2021-01-21 20:25:24.1082 INFO Getting authors.
+2021-01-21 20:25:43.8929 INFO Getting author by id. Id: 1
+2021-01-21 20:25:44.0717 WARN Author com id 1 não foi encontrado.

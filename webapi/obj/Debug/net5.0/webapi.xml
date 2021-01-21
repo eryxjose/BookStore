@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>webapi</name>
+    </assembly>
+    <members>
+        <member name="M:webapi.Controllers.ApiController.Get">
+            <summary>
+            Get values from Api
+            </summary>
+        </member>
+        <member name="M:webapi.Controllers.AuthorsController.GetAuthors">
+            <summary>
+            Get all authors
+            </summary>
+            <returns>All authors</returns>
+        </member>
+        <member name="M:webapi.Controllers.AuthorsController.GetAuthor(System.Int32)">
+            <summary>
+            Get an author by id
+            </summary>
+            <param name="id"></param>
+            <returns>An author's record</returns>
+        </member>
+        <member name="M:webapi.HomeController.Get">
+            <summary>
+            Get values from Api
+            </summary>
+        </member>
+    </members>
+</doc>
