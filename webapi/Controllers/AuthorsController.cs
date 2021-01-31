@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Http;
 using webapi.Contracts;
 using AutoMapper;
 using webapi.DTOs;
+using webapi.Data;
 using System.Threading.Tasks;
 
 namespace webapi.Controllers
@@ -77,12 +78,21 @@ namespace webapi.Controllers
             }
         }
 
-        public async Task<IActionResult> Create([FromBody] AuthorCreateDTO authorDTO) 
+        /// <summary>
+        /// Creates an author
+        /// </summary>
+        /// <param name="authorCreateDTO"></param>
+        /// <returns></returns>
+        [HttpPost]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> Create([FromBody] AuthorCreateDTO authorCreateDTO) 
         {
             try
             {
                 // ModelState restaura as informações preenchidas para o form
-                if (authorDTO == null) 
+                if (authorCreateDTO == null) 
                 {
                     _logger.LogWarn($"Empty request.");
                     return BadRequest(ModelState);
@@ -94,8 +104,61 @@ namespace webapi.Controllers
                     return BadRequest(ModelState);
                 }
                 
-                var author = _mapper.Map<AuthorCreateDTO>(authorDTO);
+                var author = _mapper.Map<Author>(authorCreateDTO);
+                
                 var isSuccess = await _authorRepository.Create(author);
+                if (!isSuccess)
+                {
+                    return InternalError($"Failed to create Author.");
+                }
+
+                _logger.LogInfo("Author created.");
+                return Created("Create", new { author });
+            }
+            catch (Exception ex) 
+            {
+                return InternalError($"{ex.Message} - {ex.InnerException}");
+            }
+        }
+
+        /// <summary>
+        /// Update an author
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="authorDTO"></param>
+        /// <returns></returns>
+        [HttpPut("id")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> Update(int id, [FromBody] AuthorUpdateDTO authorDTO) 
+        {
+            try
+            {
+                _logger.LogInfo($"Attempt to update Author id: {id}");
+                if (id < 1 || authorDTO == null || id != authorDTO.Id) 
+                {
+                    _logger.LogWarn($"Empty request.");
+                    return BadRequest(ModelState);
+                }
+                
+                if (!ModelState.IsValid)
+                {
+                    _logger.LogWarn($"Verifique os dados e tente novamente.");
+                    return BadRequest(ModelState);
+                }
+                
+                var author = _mapper.Map<Author>(authorDTO);
+                
+                var isSuccess = await _authorRepository.Update(author);
+                if (!isSuccess)
+                {
+                    return InternalError($"Failed to update Author.");
+                }
+
+                _logger.LogInfo("Author updated.");
+                return NoContent();
+
             }
             catch (Exception ex) 
             {
