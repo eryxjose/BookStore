@@ -141,14 +141,20 @@ namespace webapi.Controllers
                     _logger.LogWarn($"Empty request.");
                     return BadRequest(ModelState);
                 }
+
+                var exists = await _authorRepository.Exists(id);
+                if (!exists) 
+                {
+                    return NotFound();
+                }
+                
+                var author = _mapper.Map<Author>(authorDTO);
                 
                 if (!ModelState.IsValid)
                 {
                     _logger.LogWarn($"Verifique os dados e tente novamente.");
                     return BadRequest(ModelState);
                 }
-                
-                var author = _mapper.Map<Author>(authorDTO);
                 
                 var isSuccess = await _authorRepository.Update(author);
                 if (!isSuccess)
@@ -163,6 +169,47 @@ namespace webapi.Controllers
             catch (Exception ex) 
             {
                 return InternalError($"{ex.Message} - {ex.InnerException}");
+            }
+        }
+
+        /// <summary>
+        /// Removes an author
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpPut("id")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> Delete(int id) 
+        {
+            try 
+            {
+                if (id < 1) 
+                {
+                    return BadRequest();
+                }
+
+                var exists = await _authorRepository.Exists(id);
+                if (!exists) 
+                {
+                    return NotFound();
+                }
+
+                var author = await _authorRepository.FindById(id);
+                
+                var success = await _authorRepository.Delete(author);
+
+                if (!success)
+                {
+                    return InternalError($"Ocorreu um erro");
+                }
+
+                return NoContent();
+            } 
+            catch (Exception e) 
+            {
+                return InternalError($"{e.Message} - {e.InnerException}");
             }
         }
 

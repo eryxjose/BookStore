@@ -22,6 +22,21 @@
             <param name="id"></param>
             <returns>An author's record</returns>
         </member>
+        <member name="M:webapi.Controllers.AuthorsController.Create(webapi.DTOs.AuthorCreateDTO)">
+            <summary>
+            Creates an author
+            </summary>
+            <param name="authorCreateDTO"></param>
+            <returns></returns>
+        </member>
+        <member name="M:webapi.Controllers.AuthorsController.Update(System.Int32,webapi.DTOs.AuthorUpdateDTO)">
+            <summary>
+            Update an author
+            </summary>
+            <param name="id"></param>
+            <param name="authorDTO"></param>
+            <returns></returns>
+        </member>
         <member name="M:webapi.HomeController.Get">
             <summary>
             Get values from Api

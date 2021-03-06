@@ -26,6 +26,11 @@ namespace webapi.Services
             return await Save();
         }
 
+        public Task<bool> Exists(int id)
+        {
+            return _db.Authors.AnyAsync(o => o.Id == id);
+        }
+
         public async Task<IList<Author>> FindAll()
         {
             var authors = await _db.Authors.ToListAsync();
